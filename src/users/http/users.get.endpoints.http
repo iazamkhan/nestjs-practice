@@ -1,0 +1,1 @@
+GET http://localhost:3000/users/2121?limit=10&offsetMark=20
