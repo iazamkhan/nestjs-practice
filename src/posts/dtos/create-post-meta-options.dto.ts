@@ -1,10 +1,10 @@
-import { isNotEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePostMetaOptionsDto {
   @IsString()
   @IsNotEmpty()
   key: string;
 
-  IsNotEmpty();
+  @IsNotEmpty()
   value: any;
 }
