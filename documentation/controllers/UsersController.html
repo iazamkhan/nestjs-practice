@@ -192,7 +192,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createUsers(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>, headers: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, ip: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>createUsers(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
                 </td>
             </tr>
 
@@ -239,35 +239,11 @@
 
 
                                         </tr>
-                                        <tr>
-                                                <td>headers</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>ip</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
                             <div class="io-description">
@@ -412,8 +388,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="75"
-                                    class="link-to-prism">src/users/users.controller.ts:75</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/users/users.controller.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -525,15 +501,8 @@ export class UsersController {
   }
 
   @Post()
-  public createUsers(
-    @Body() createUserDto: CreateUserDto,
-    @Headers() headers: any,
-    @Ip() ip: any,
-  ) {
-    console.log(createUserDto instanceof CreateUserDto);
-    console.log(headers);
-    console.log(ip);
-    return &#x27;You sent a post request to users endpoint&#x27;;
+  public createUsers(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Patch()
