@@ -3,9 +3,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { PrimaryGeneratedColumn } from 'typeorm/browser';
 
 @Entity()
 export class Tag {
