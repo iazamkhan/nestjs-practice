@@ -14,7 +14,7 @@ export class MetaOption {
 
   @Column({
     type: 'json',
-    nullable: 'false',
+    nullable: false,
   })
   metaValue: string;
 
