@@ -9,12 +9,11 @@ Content-Type: application/json
     "content": "test content",
     "schema": "{\r\n    \"@context\": \"https:\/\/schema.org\",\r\n    \"@type\": \"Person\"\r\n  }",
     "featuredImageUrl": "https://localhost.com/images/image_one.png",
-    "publishOn": "2018-08-18T00:00:00+10",
-    "tags": ["nestjs", "typescript"],
-    "metaOptions": [
+    "publishOn": "2026-08-20T16:40:00Z",
+    //"tags": ["nestjs", "typescript"],
+    "metaOptions": 
         {
-            "key": "testKey",
-            "value": 20
+            "metaValue": "{\"sidebarEnabled\": true, \"footerActive\": true}"
         }
-    ]
+    
 }
