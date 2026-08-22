@@ -39,4 +39,20 @@ export class PostsService {
     let posts = await this.postRepository.find();
     return posts;
   }
+
+  public async deletePost(id: number) {
+    //Find the post
+    const post = await this.postRepository.findOneBy({ id });
+    //Delete the post
+    await this.postRepository.delete(id);
+    //Delete the metaOptions if exists
+    if (!post) {
+      return { deleted: false, id, message: 'Post not found' };
+    }
+    if (post.metaOptions?.id) {
+      await this.metaOptionsRepository.delete(post.metaOptions.id);
+    }
+    //Confirmation
+    return { deleted: true, id };
+  }
 }
