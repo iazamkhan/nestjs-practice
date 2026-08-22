@@ -28,37 +28,15 @@ export class PostsService {
    * Creating new posts
    */
   public async create(@Body() createPostDto: CreatePostDto) {
-    //Create metaOptions
-    const metaOptions = createPostDto.metaOptions
-      ? this.metaOptionsRepository.create(createPostDto.metaOptions)
-      : null;
-
-    if (metaOptions) {
-      await this.metaOptionsRepository.save(metaOptions);
-    }
     //Create post
     const post = this.postRepository.create(createPostDto);
-    //Add metaoptions to the post
-    if (metaOptions) {
-      post.metaOptions = metaOptions;
-    }
     //Return the post
     return await this.postRepository.save(post);
   }
 
-  public findAll(userId: string) {
+  public async findAll(userId: string) {
     const user = this.usersService.findOneById(userId);
-    return [
-      {
-        user: user,
-        title: 'Test Title 1',
-        content: 'Test Content',
-      },
-      {
-        user: user,
-        title: 'Test Title 2',
-        content: 'Test Content',
-      },
-    ];
+    let posts = await this.postRepository.find();
+    return posts;
   }
 }
