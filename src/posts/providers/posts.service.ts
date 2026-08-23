@@ -28,14 +28,18 @@ export class PostsService {
    * Creating new posts
    */
   public async create(@Body() createPostDto: CreatePostDto) {
-    //Create post
-    const post = this.postRepository.create(createPostDto);
-    //Return the post
+    const author = await this.usersService.findOneById(createPostDto.authorId);
+    const { authorId, ...postData } = createPostDto;
+
+    const post = this.postRepository.create({
+      ...postData,
+      ...(author ? { author } : {}),
+    });
+
     return await this.postRepository.save(post);
   }
 
   public async findAll(userId: string) {
-    const user = this.usersService.findOneById(userId);
     let posts = await this.postRepository.find();
     return posts;
   }

@@ -9,11 +9,11 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  public login(email: string, password: string, id: string) {
+  public login(email: string, password: string, id: number) {
     // Check if the user exists in the DB or not
     //login
     //return a token to identify
-    const user = this.usersService.findOneById('12345');
+    const user = this.usersService.findOneById(id);
     return 'SAMPLE_TOKEN';
   }
 
