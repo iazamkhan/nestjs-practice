@@ -18,6 +18,6 @@ export class User {
   @Column({ type: 'varchar', length: 96, nullable: false })
   password: string;
 
-  @OneToMany(() => Post, (post) => post.author)
+  @OneToMany(() => Post, (post) => post.authorId)
   posts: Post[];
 }
