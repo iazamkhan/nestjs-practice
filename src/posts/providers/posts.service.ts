@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { Repository } from 'typeorm';
@@ -28,7 +28,14 @@ export class PostsService {
    * Creating new posts
    */
   public async create(@Body() createPostDto: CreatePostDto) {
+    //Find author from the database based on the authorId
     const author = await this.usersService.findOneById(createPostDto.authorId);
+
+    if (!author) {
+      throw new NotFoundException(
+        `Author with id ${createPostDto.authorId} not found`,
+      );
+    }
 
     const post = this.postRepository.create({
       ...createPostDto,
