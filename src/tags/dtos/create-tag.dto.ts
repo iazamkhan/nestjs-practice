@@ -7,6 +7,7 @@ import {
   Matches,
   MaxLength,
   MinLength,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateTagDto {
@@ -35,10 +36,12 @@ export class CreateTagDto {
   description?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @IsJSON()
   schema?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @IsUrl()
   @MaxLength(1024)
   featuredImageUrl?: string;
