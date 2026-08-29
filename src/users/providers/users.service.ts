@@ -1,4 +1,10 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  forwardRef,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { GetUsersParamDto } from '../dtos/get-users-param.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { Repository } from 'typeorm';
@@ -24,11 +30,18 @@ export class UsersService {
     const existingUser = await this.usersRepository.findOne({
       where: { email: createUserDTO.email },
     });
-    //Handle exception
-    //Create a new user
-    let newUser = this.usersRepository.create(createUserDTO);
-    newUser = await this.usersRepository.save(newUser);
-    return newUser;
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+
+    const newUser = this.usersRepository.create(createUserDTO);
+    try {
+      return await this.usersRepository.save(newUser);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        err?.message || 'Unable to create user',
+      );
+    }
   }
 
   /**

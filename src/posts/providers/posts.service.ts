@@ -49,7 +49,7 @@ export class PostsService {
     let posts = await this.postRepository.find({
       relations: {
         metaOptions: true,
-        author: true,
+        // author: true,
       },
     });
     return posts;
