@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Post } from '../post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MetaOption } from 'src/meta-options/meta-option.entity';
+import { TagsService } from 'src/tags/providers/tags/tags.service';
+import { PatchPostDto } from '../dtos/patch-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -22,6 +24,11 @@ export class PostsService {
      */
     @InjectRepository(MetaOption)
     private readonly metaOptionsRepository: Repository<MetaOption>,
+
+    /**
+     * Inject TagsService
+     */
+    private readonly tagsService: TagsService,
   ) {}
 
   /**
@@ -37,9 +44,14 @@ export class PostsService {
       );
     }
 
+    const tags = await this.tagsService.findMultipleTags(
+      createPostDto.tags ?? [],
+    );
+
     const post = this.postRepository.create({
       ...createPostDto,
       author: author,
+      tags: tags,
     });
 
     return await this.postRepository.save(post);
@@ -49,10 +61,41 @@ export class PostsService {
     let posts = await this.postRepository.find({
       relations: {
         metaOptions: true,
+        // tags: true
         // author: true,
       },
     });
     return posts;
+  }
+
+  public async update(patchPostDto: PatchPostDto) {
+    //Find the tags
+    const tags = await this.tagsService.findMultipleTags(
+      patchPostDto.tags ?? [],
+    );
+
+    //Find the post
+    const post = await this.postRepository.findOneBy({ id: patchPostDto.id });
+
+    if (!post) {
+      throw new NotFoundException(`Post with id ${patchPostDto.id} not found`);
+    }
+
+    //Update the properties
+    post.title = patchPostDto.title ?? post.title;
+    post.content = patchPostDto.content ?? post.content;
+    post.status = patchPostDto.status ?? post.status;
+    post.postType = patchPostDto.postType ?? post.postType;
+    post.slug = patchPostDto.slug ?? post.slug;
+    post.featuredImageUrl =
+      patchPostDto.featuredImageUrl ?? post.featuredImageUrl;
+    post.publishOn = patchPostDto.publishOn ?? post.publishOn;
+
+    //Assign the new tags
+    post.tags = tags;
+
+    //Save the post and return
+    return await this.postRepository.save(post);
   }
 
   public async deletePost(id: number) {
